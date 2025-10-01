@@ -1,0 +1,2 @@
+# This line is mandatory to access the configuration functions
+from Config import *
