@@ -117,7 +117,7 @@ for mpi in %{?mpi_list}; do
 	%module_load $mpi
 	autoreconf -i ../
 	../configure \
-		--with-hdf5=%{mpi_libdir}/$mpi/ \
+		--with-hdf5=%{mpi_libdir}/$mpi \
 		--prefix=%{mpi_libdir}/$mpi
 	make
 	module purge
@@ -131,6 +131,7 @@ for mpi in %{?mpi_list}; do
 	%module_load $mpi
 	make install
 	module purge
+	popd
 done
 
 %if %{with_openmpi}
