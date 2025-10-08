@@ -43,7 +43,7 @@
 %global shortcommit %(c=%{commit};echo ${c:0:7})
 
 Name:		E3SM-IO
-Version:	%{commit}
+Version:	v.1.3.0.pre3
 Release:	1%{?commit:.g%{shortcommit}}%{?dist}
 Summary:	File utilities designed for scalability and performance
 
@@ -130,7 +130,6 @@ for mpi in %{?mpi_list}; do
 	%module_load $mpi
 	make install -C $mpi DESTDIR=%{buildroot}
 	module purge
-	popd
 done
 
 %if %{with_openmpi}
@@ -152,5 +151,5 @@ done
 %endif
 
 %changelog
-* Wed Oct 01 2025 Dalton A. Bohning <dalton.bohning@hpe.com> - 76a1c2fabd042423493a455ef3ce72577a3848a2-1
+* Mon Nov 17 2025 Dalton A. Bohning <dalton.bohning@hpe.com> - v.1.3.0.pre3-1
 - Initial package
