@@ -58,6 +58,7 @@ BuildRequires: lua-lmod
 BuildRequires: Lmod
 %endif
 BuildRequires: autoconf
+BuildRequires: automake
 
 
 %if (0%{?suse_version} > 0)
