@@ -43,17 +43,14 @@
 %global shortcommit %(c=%{commit};echo ${c:0:7})
 
 Name:		E3SM-IO
-Version:	v.1.3.0.pre3
+Version:	%{commit}
 Release:	1%{?commit:.g%{shortcommit}}%{?dist}
 Summary:	File utilities designed for scalability and performance
 
 Group:		System Environment/Libraries
 License:	BSD
 URL:		https://github.com/Parallel-NetCDF/E3SM-IO
-Source:		https://github.com/Parallel-NetCDF/E3SM-IO/archive/refs/tags/%{version}.tar.gz
-%if "%{?commit}" != ""
-Patch1: %{version}..%{commit}.patch
-%endif
+Source:		https://github.com/Parallel-NetCDF/E3SM-IO/archive/%{commit}.tar.gz
 BuildRoot:	%_topdir/BUILDROOT
 %if (0%{?suse_version} >= 1500)
 BuildRequires: lua-lmod
@@ -150,5 +147,5 @@ done
 %endif
 
 %changelog
-* Wed Oct 01 2025 Dalton A. Bohning <dalton.bohning@hpe.com> - 0.12-1
+* Wed Oct 01 2025 Dalton A. Bohning <dalton.bohning@hpe.com> - 76a1c2fabd042423493a455ef3ce72577a3848a2-1
 - Initial package
