@@ -59,6 +59,7 @@ BuildRequires: Lmod
 %endif
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: libtool
 
 
 %if (0%{?suse_version} > 0)
