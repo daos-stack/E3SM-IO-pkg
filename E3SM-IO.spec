@@ -127,6 +127,7 @@ done
 %install
 rm -rf %{buildroot}
 for mpi in %{?mpi_list}; do
+	pushd $mpi
 	%module_load $mpi
 	make install
 	module purge
