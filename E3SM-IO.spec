@@ -112,8 +112,8 @@ for mpi in %{?mpi_list}; do
 	mkdir $mpi
 	pushd $mpi
 	%module_load $mpi
-	autoreconf -i
-	./configure \
+	autoreconf -i ../
+	../configure \
 		--with-hdf5=%{mpi_libdir}/$mpi/ \
 		--prefix=%{mpi_libdir}/$mpi
 	make
