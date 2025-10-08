@@ -59,6 +59,7 @@ BuildRequires: Lmod
 %endif
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: gcc-c++
 BuildRequires: libtool
 
 
