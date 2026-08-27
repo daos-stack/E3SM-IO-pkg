@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+#  Copyright 2025-2026 Hewlett Packard Enterprise Development LP
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
 set -uex
 
 # This script is used by Dockerfiles to optionally use
@@ -9,26 +14,9 @@ set -uex
 : "${FVERSION:=latest}"
 : "${REPOSITORY_NAME:=artifactory}"
 : "${archive:=}"
-
-is_fedora_eol() {
-    local eol_url fedora_version eol_date today
-    if [ -n "$REPO_FILE_URL" ]; then
-        eol_url="${REPO_FILE_URL%repo-files/}eol-proxy/fedora.json"
-        fedora_version=$(grep VERSION_ID /etc/os-release | cut -d= -f2 | \
-                         tr -d '"')
-        eol_date=$(curl -s "$eol_url" | sed 's/},{/}\n{/g' | \
-                   grep "cycle\":\"$fedora_version\"" | \
-                   sed -n 's/.*"eol":"\([^"]*\)".*/\1/p')
-        if [[ -z "$eol_date" ]]; then
-            return 1 # Assume NOT EOL if data missing
-        fi
-        today=$(date +%Y-%m-%d)
-        [[ "$today" > "$eol_date" ]]
-        return $?  # Return 0 if EOL, 1 if not
-    else
-        return 1 # Assume NOT EOL if url is missing
-    fi
-}
+if [ "$FVERSION" != "latest" ]; then
+    archive="-archive"
+fi
 
 # shellcheck disable=SC2120
 disable_repos () {
@@ -75,14 +63,11 @@ install_optional_ca() {
 if [ -n "$REPO_FILE_URL" ]; then
     install_curl
     install_optional_ca
-    if is_fedora_eol; then
-        archive="-archive"
-    fi
     mkdir -p /etc/yum.repos.d
     pushd /etc/yum.repos.d/
     curl -k -sSf                                  \
          -o "daos_ci-fedora${archive}-${REPOSITORY_NAME}.repo"  \
-         "${REPO_FILE_URL}daos_ci-fedora${archive}-${REPOSITORY_NAME}.repo"
+         "{$REPO_FILE_URL}daos_ci-fedora${archive}-${REPOSITORY_NAME}.repo"
     disable_repos /etc/yum.repos.d/
     popd
 fi
